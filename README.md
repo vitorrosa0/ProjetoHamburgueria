@@ -1,3 +1,4 @@
 # ProjetoHamburgueria
 
-<img width="8192" height="7354" alt="image" src="https://github.com/user-attachments/assets/a5d5a4cb-2b27-4d46-bcb2-0596a3bb445b" />
+<img width="2382" height="2136" alt="Hamburgueria drawio" src="https://github.com/user-attachments/assets/26ad34b6-3177-44b8-95b0-24cf9f2f0ceb" />
+
