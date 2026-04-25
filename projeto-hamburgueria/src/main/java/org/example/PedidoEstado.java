@@ -1,6 +1,11 @@
 package org.example;
 
-public abstract class PedidoEstado {
+import java.util.Observable;
+import java.util.Observer;
+
+public abstract class PedidoEstado implements Observer {
+
+    private String ultimaNotificacao;
 
     public abstract String getPedidoEstado();
 
@@ -17,4 +22,16 @@ public abstract class PedidoEstado {
     public boolean entregar(Pedido pedido) { return false; }
 
     public boolean devolver(Pedido pedido) { return false; }
+
+    public String getUltimaNotificacao() {
+        return this.ultimaNotificacao;
+    }
+
+    public void atualizar(Pedido pedido) {
+        pedido.addObserver(this);
+    }
+
+    public void update(Observable pedido, Object arg1) {
+        this.ultimaNotificacao = "Pedido atualizado para: " + pedido.toString();
+    }
 }

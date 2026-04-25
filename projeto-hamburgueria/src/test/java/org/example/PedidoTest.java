@@ -16,14 +16,16 @@ class PedidoTest {
     @Test
     void deveAceitarUmPedido() {
         Pedido pedido = criarPedidoTradicional();
-        assertEquals(PedidoEstadoAceito.getInstancia(), pedido.getEstado());
+        pedido.setPedidoEstado(pedido.getEstado());
+        assertEquals("Pedido atualizado para: Aceito", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
     void devePrepararUmPedido() {
         Pedido pedido = criarPedidoTradicional();
+        pedido.setPedidoEstado(pedido.getEstado());
         assertTrue(pedido.preparar());
-        assertEquals(PedidoEstadoEmPreparacao.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Em preparacao", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -31,7 +33,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoEmPreparacao.getInstancia());
         assertTrue(pedido.cancelar());
-        assertEquals(PedidoEstadoCancelado.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Cancelado", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -39,7 +41,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoEmPreparacao.getInstancia());
         assertTrue(pedido.pronto());
-        assertEquals(PedidoEstadoPronto.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Pronto", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -47,7 +49,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoPronto.getInstancia());
         assertTrue(pedido.cancelar());
-        assertEquals(PedidoEstadoCancelado.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Cancelado", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -55,7 +57,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoPronto.getInstancia());
         assertTrue(pedido.emRota());
-        assertEquals(PedidoEstadoEmRota.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Em rota", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -63,7 +65,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoPronto.getInstancia());
         assertTrue(pedido.entregar());
-        assertEquals(PedidoEstadoEntregue.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Entregue", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -71,7 +73,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoEmRota.getInstancia());
         assertTrue(pedido.cancelar());
-        assertEquals(PedidoEstadoCancelado.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Cancelado", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -79,7 +81,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoEmRota.getInstancia());
         assertTrue(pedido.entregar());
-        assertEquals(PedidoEstadoEntregue.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Entregue", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -87,7 +89,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoEntregue.getInstancia());
         assertTrue(pedido.devolver());
-        assertEquals(PedidoEstadoDevolucao.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Devolvido", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -95,7 +97,7 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoDevolucao.getInstancia());
         assertTrue(pedido.cancelar());
-        assertEquals(PedidoEstadoCancelado.getInstancia(), pedido.getEstado());
+        assertEquals("Pedido atualizado para: Cancelado", pedido.getEstado().getUltimaNotificacao());
     }
 
     @Test
@@ -139,11 +141,9 @@ class PedidoTest {
         pedido.setPedidoEstado(PedidoEstadoEmPreparacao.getInstancia());
         assertFalse(pedido.aceitar());
     }
-    // ---- EmPreparacao (faltam 5, o aceitar já está) ----
 
     @Test
     void naoDeveEstarProntoUmPedidoEmPreparacao_SemChamarPronto() {
-        // EmPreparacao não pode ir direto pra emRota
         Pedido pedido = criarPedidoTradicional();
         pedido.setPedidoEstado(PedidoEstadoEmPreparacao.getInstancia());
         assertFalse(pedido.emRota());
@@ -170,8 +170,6 @@ class PedidoTest {
         assertFalse(pedido.preparar());
     }
 
-    // ---- Pronto (faltam 4, cancelar/emRota/entregar já estão) ----
-
     @Test
     void naoDeveAceitarUmPedidoPronto() {
         Pedido pedido = criarPedidoTradicional();
@@ -192,8 +190,6 @@ class PedidoTest {
         pedido.setPedidoEstado(PedidoEstadoPronto.getInstancia());
         assertFalse(pedido.devolver());
     }
-
-    // ---- EmRota (faltam 4, cancelar/entregar já estão) ----
 
     @Test
     void naoDeveAceitarUmPedidoEmRota() {
@@ -222,8 +218,6 @@ class PedidoTest {
         pedido.setPedidoEstado(PedidoEstadoEmRota.getInstancia());
         assertFalse(pedido.devolver());
     }
-
-    // ---- Entregue (faltam 6, devolver já está) ----
 
     @Test
     void naoDeveAceitarUmPedidoEntregue() {
@@ -267,8 +261,6 @@ class PedidoTest {
         assertFalse(pedido.entregar());
     }
 
-    // ---- Devolucao (faltam 6, cancelar já está) ----
-
     @Test
     void naoDeveAceitarUmPedidoDevolvido() {
         Pedido pedido = criarPedidoTradicional();
@@ -310,8 +302,6 @@ class PedidoTest {
         pedido.setPedidoEstado(PedidoEstadoDevolucao.getInstancia());
         assertFalse(pedido.devolver());
     }
-
-    // ---- Cancelado (todos os 7 são negativos) ----
 
     @Test
     void naoDeveAceitarUmPedidoCancelado() {
@@ -375,5 +365,6 @@ class PedidoTest {
         pedido.setPedidoEstado(PedidoEstadoPronto.getInstancia());
         assertFalse(pedido.pronto());
     }
+
 
 }

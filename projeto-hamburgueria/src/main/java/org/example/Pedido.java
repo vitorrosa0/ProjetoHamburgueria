@@ -1,6 +1,8 @@
 package org.example;
 
-public class Pedido {
+import java.util.Observable;
+
+public class Pedido extends Observable {
 
     private Hamburguer hamburguer;
     private PedidoEstado pedidoEstado;
@@ -21,6 +23,7 @@ public class Pedido {
 
     public void setPedidoEstado(PedidoEstado pedidoEstado) {
         this.pedidoEstado = pedidoEstado;
+        this.atualizarPedido();
     }
 
     public boolean aceitar() {
@@ -49,5 +52,16 @@ public class Pedido {
 
     public boolean devolver() {
         return pedidoEstado.devolver(this);
+    }
+
+    public void atualizarPedido() {
+        pedidoEstado.atualizar(this);
+        setChanged();
+        notifyObservers();
+    }
+
+    @Override
+    public String toString() {
+        return pedidoEstado.getPedidoEstado();
     }
 }
