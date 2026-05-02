@@ -367,4 +367,25 @@ class PedidoTest {
     }
 
 
+    @Test
+    void deveRetornarMetodoPagamentoPix() {
+        Pedido pedido = criarPedidoTradicional();
+        pedido.setEstrategiaPagamento(new PagamentoPix());
+        assertEquals("[Pago via Pix]", pedido.getEstrategiaPagamento().descricao());
+    }
+
+    @Test
+    void deveRetornarMetodoPagamentoCartao() {
+        Pedido pedido = criarPedidoTradicional();
+        pedido.setEstrategiaPagamento(new PagamentoCartao());
+        assertEquals("[Pago via Cartão]", pedido.getEstrategiaPagamento().descricao());
+    }
+
+    @Test
+    void deveRetornarMetodoPagamentoDinheiro() {
+        Pedido pedido = criarPedidoTradicional();
+        pedido.setEstrategiaPagamento(new PagamentoDinheiro());
+        assertEquals("[Pago via Dinheiro]", pedido.getEstrategiaPagamento().descricao());
+    }
+
 }

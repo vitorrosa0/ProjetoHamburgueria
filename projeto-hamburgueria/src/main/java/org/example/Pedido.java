@@ -6,6 +6,7 @@ public class Pedido extends Observable {
 
     private Hamburguer hamburguer;
     private PedidoEstado pedidoEstado;
+    private EstrategiaPagamento estrategiaPagamento;
 
     public Pedido(Hamburguer hamburguer) {
         this.hamburguer = hamburguer;
@@ -24,6 +25,14 @@ public class Pedido extends Observable {
     public void setPedidoEstado(PedidoEstado pedidoEstado) {
         this.pedidoEstado = pedidoEstado;
         this.atualizarPedido();
+    }
+
+    public EstrategiaPagamento getEstrategiaPagamento() {
+        return estrategiaPagamento;
+    }
+
+    public void setEstrategiaPagamento(EstrategiaPagamento estrategiaPagamento) {
+        this.estrategiaPagamento = estrategiaPagamento;
     }
 
     public boolean aceitar() {
