@@ -1,6 +1,11 @@
 package org.example;
 
-import org.example.*;
+import org.example.fabrica.FabricaTradicional;
+import org.example.fabrica.FabricaVegana;
+import org.example.fabrica.HamburgueriaFactory;
+import org.example.preparo.PreparoGrelhado;
+import org.example.preparo.PreparoNaChapa;
+import org.example.produtos.Hamburguer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
