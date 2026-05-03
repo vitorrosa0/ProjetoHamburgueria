@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -388,4 +387,26 @@ class PedidoTest {
         assertEquals("[Pago via Dinheiro]", pedido.getEstrategiaPagamento().descricao());
     }
 
+    @Test
+    void deveChefChapaAssumirFritura() {
+        ChefMontagem montagem = new ChefMontagem(null);
+        ChefFritar fritar = new ChefFritar(montagem);
+
+        Pedido pedido = criarPedidoTradicional();
+
+        pedido.setTarefaCozinha("Fritando a carne");
+
+        assertEquals("ChefChapa", fritar.preparar(pedido));
+    }
+
+    @Test
+    void deveChefMontagemAssumirAMontagem() {
+        ChefMontagem montagem = new ChefMontagem(null);
+        ChefFritar fritar = new ChefFritar(montagem);
+
+        Pedido pedido = criarPedidoTradicional();
+        pedido.setTarefaCozinha("Montando o sanduiche");
+
+        assertEquals("ChefMontagem", fritar.preparar(pedido));
+    }
 }
