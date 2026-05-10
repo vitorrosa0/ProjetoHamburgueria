@@ -1,4 +1,4 @@
-package org.example;
+package org.example.pedido;
 
 import org.example.equipe.ChefFritar;
 import org.example.equipe.ChefMontagem;
@@ -7,7 +7,6 @@ import org.example.fabrica.HamburgueriaFactory;
 import org.example.pagamento.PagamentoCartao;
 import org.example.pagamento.PagamentoDinheiro;
 import org.example.pagamento.PagamentoPix;
-import org.example.pedido.*;
 import org.example.preparo.PreparoGrelhado;
 import org.example.produtos.Hamburguer;
 import org.junit.jupiter.api.Test;
