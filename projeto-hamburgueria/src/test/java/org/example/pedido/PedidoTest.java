@@ -405,7 +405,7 @@ class PedidoTest {
 
         pedido.setTarefaCozinha("Fritando a carne");
 
-        assertEquals("ChefChapa", fritar.preparar(pedido));
+        assertEquals("ChefChapa", pedido.processarNaCozinha());
     }
 
     @Test
@@ -416,6 +416,6 @@ class PedidoTest {
         Pedido pedido = criarPedidoTradicional();
         pedido.setTarefaCozinha("Montando o sanduiche");
 
-        assertEquals("ChefMontagem", fritar.preparar(pedido));
+        assertEquals("ChefMontagem", pedido.processarNaCozinha());
     }
 }

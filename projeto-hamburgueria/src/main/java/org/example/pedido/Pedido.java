@@ -1,5 +1,6 @@
 package org.example.pedido;
 
+import org.example.equipe.Cozinha;
 import org.example.pagamento.EstrategiaPagamento;
 import org.example.produtos.Hamburguer;
 
@@ -79,6 +80,10 @@ public class Pedido extends Observable {
         pedidoEstado.atualizar(this);
         setChanged();
         notifyObservers();
+    }
+
+    public String processarNaCozinha() {
+        return Cozinha.getInstance().processarTarefa(this);
     }
 
     @Override
