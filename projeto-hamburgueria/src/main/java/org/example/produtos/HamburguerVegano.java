@@ -4,12 +4,19 @@ import org.example.preparo.ModoPreparo;
 
 public class HamburguerVegano extends HamburguerBase {
 
-
     public HamburguerVegano(ModoPreparo modoPreparo) {
-        super("Pão Integral", "Grão de Bico", modoPreparo);
+        super(modoPreparo);
     }
 
-    public String montaHamburguer() {
-        return "[Vegano] " + super.montaHamburguer();
+    protected String getCategoria() {
+        return "[Vegano]";
+    }
+
+    protected String getPao() {
+        return "Pão Integral";
+    }
+
+    protected String getCarne() {
+        return "Grão de Bico";
     }
 }

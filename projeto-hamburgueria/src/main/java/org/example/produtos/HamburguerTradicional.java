@@ -6,10 +6,18 @@ public class HamburguerTradicional extends HamburguerBase {
 
 
     public HamburguerTradicional(ModoPreparo modoPreparo) {
-        super("Pão Brioche", "Carne bovina", modoPreparo);
+        super(modoPreparo);
     }
 
-    public String montaHamburguer() {
-        return "[Tradicional] " + super.montaHamburguer();
+    protected String getCategoria() {
+        return "[Tradicional]";
+    }
+
+    protected String getPao() {
+        return "Pão Brioche";
+    }
+
+    protected String getCarne() {
+        return "Carne bovina";
     }
 }
