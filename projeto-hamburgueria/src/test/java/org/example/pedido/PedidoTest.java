@@ -1,15 +1,10 @@
 package org.example.pedido;
 
-import org.example.equipe.ChefFritar;
-import org.example.equipe.ChefMontagem;
-import org.example.fabrica.FabricaTradicional;
-import org.example.fabrica.HamburgueriaFactory;
 import org.example.pagamento.PagamentoCartao;
 import org.example.pagamento.PagamentoDinheiro;
 import org.example.pagamento.PagamentoPix;
 import org.example.preparo.PreparoGrelhado;
 import org.example.preparo.PreparoNaChapa;
-import org.example.produtos.Hamburguer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -478,5 +473,20 @@ class PedidoTest {
         } catch (IllegalArgumentException e) {
             assertEquals("Índice inválido", e.getMessage());
         }
+    }
+
+    @Test
+    void testClone() throws CloneNotSupportedException {
+        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+
+        Pedido pedidoClone = pedido.clone();
+        pedidoClone.setEstrategiaPagamento(new PagamentoCartao());
+
+        assertEquals("[Pago via Pix]", pedido.getEstrategiaPagamento().descricao());
+        assertEquals("[Pago via Cartão]", pedidoClone.getEstrategiaPagamento().descricao());
+
+        assertNotSame(pedido.getItemCardapio(), pedidoClone.getItemCardapio());
+
+        assertEquals(pedido.getItemCardapio().getConteudo(), pedidoClone.getItemCardapio().getConteudo());
     }
 }

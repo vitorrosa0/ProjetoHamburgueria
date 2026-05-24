@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Pedido extends Observable {
+public class Pedido extends Observable implements Cloneable {
 
     private ItemCardapio itemCardapio;
     private PedidoEstado pedidoEstado;
@@ -113,6 +113,12 @@ public class Pedido extends Observable {
 
     public List<PedidoEstado> getEstados() {
         return this.memento;
+    }
+
+    public Pedido clone() throws CloneNotSupportedException {
+        Pedido pedidoClone = (Pedido) super.clone();
+        pedidoClone.itemCardapio = (ItemCardapio) pedidoClone.itemCardapio.clone();
+        return pedidoClone;
     }
 
     @Override

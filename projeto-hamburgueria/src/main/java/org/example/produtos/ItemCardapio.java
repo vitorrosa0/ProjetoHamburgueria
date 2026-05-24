@@ -1,6 +1,6 @@
 package org.example.produtos;
 
-public abstract class ItemCardapio {
+public abstract class ItemCardapio implements Cloneable {
 
     private String descricao;
 
@@ -13,4 +13,9 @@ public abstract class ItemCardapio {
     }
 
     public abstract String getConteudo();
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
