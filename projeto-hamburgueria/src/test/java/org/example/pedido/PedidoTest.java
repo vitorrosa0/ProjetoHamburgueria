@@ -17,9 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PedidoTest {
 
     private Pedido criarPedidoTradicional() {
-        HamburgueriaFactory fabrica = FabricaTradicional.getInstancia();
-        Hamburguer hamburguer = fabrica.criarBase(new PreparoGrelhado());
-        return new Pedido(hamburguer);
+        return Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
     }
 
     @Test
@@ -399,40 +397,49 @@ class PedidoTest {
 
     @Test
     void deveChefChapaAssumirFritura() {
-        ChefMontagem montagem = new ChefMontagem(null);
-        ChefFritar fritar = new ChefFritar(montagem);
-
         Pedido pedido = criarPedidoTradicional();
-
         pedido.setTarefaCozinha("Fritando a carne");
-
         assertEquals("ChefChapa", pedido.processarNaCozinha());
     }
 
     @Test
     void deveChefMontagemAssumirAMontagem() {
-        ChefMontagem montagem = new ChefMontagem(null);
-        ChefFritar fritar = new ChefFritar(montagem);
-
         Pedido pedido = criarPedidoTradicional();
         pedido.setTarefaCozinha("Montando o sanduiche");
-
         assertEquals("ChefMontagem", pedido.processarNaCozinha());
     }
 
     @Test
     void deveFazerPedidoTradicionalGrelhadoViaPix() {
-        Pedido pedido = Pedido.fazer(new PreparoGrelhado(), new PagamentoPix(), false);
-        assertEquals("[Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa",
-                pedido.getHamburguer().montaHamburguer());
+        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        assertEquals("Produto: [Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa - R$25.0\n",
+                pedido.getItemCardapio().getConteudo());
         assertEquals("[Pago via Pix]", pedido.getEstrategiaPagamento().descricao());
     }
 
     @Test
     void deveFazerPedidoVeganoNaChapaViaCartao() {
-        Pedido pedido = Pedido.fazer(new PreparoNaChapa(), new PagamentoCartao(), true);
-        assertEquals("[Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa",
-                pedido.getHamburguer().montaHamburguer());
+        Pedido pedido = Pedido.fazerPedido(new PreparoNaChapa(), new PagamentoCartao(), true);
+        assertEquals("Produto: [Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa - R$22.0\n",
+                pedido.getItemCardapio().getConteudo());
         assertEquals("[Pago via Cartão]", pedido.getEstrategiaPagamento().descricao());
+    }
+
+    @Test
+    void deveFazerComboTradicionalGrelhado() {
+        Pedido pedido = Pedido.fazerCombo(new PreparoGrelhado(), new PagamentoDinheiro(), false);
+        assertEquals("Combo: Combo\n" +
+                        "Produto: [Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa - R$25.0\n" +
+                        "Bebida: Refrigerante - R$8.0\n",
+                pedido.getItemCardapio().getConteudo());
+    }
+
+    @Test
+    void deveFazerComboVeganoNaChapa() {
+        Pedido pedido = Pedido.fazerCombo(new PreparoNaChapa(), new PagamentoPix(), true);
+        assertEquals("Combo: Combo\n" +
+                        "Produto: [Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa - R$22.0\n" +
+                        "Bebida: Refrigerante - R$8.0\n",
+                pedido.getItemCardapio().getConteudo());
     }
 }

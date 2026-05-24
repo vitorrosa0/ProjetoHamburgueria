@@ -4,23 +4,24 @@ import org.example.equipe.Cozinha;
 import org.example.pagamento.EstrategiaPagamento;
 import org.example.preparo.ModoPreparo;
 import org.example.produtos.Hamburguer;
+import org.example.produtos.ItemCardapio;
 
 import java.util.Observable;
 
 public class Pedido extends Observable {
 
-    private Hamburguer hamburguer;
+    private ItemCardapio itemCardapio;
     private PedidoEstado pedidoEstado;
     private EstrategiaPagamento estrategiaPagamento;
     private String tarefaCozinha;
 
-    public Pedido(Hamburguer hamburguer) {
-        this.hamburguer = hamburguer;
+    public Pedido(ItemCardapio itemCardapio) {
+        this.itemCardapio = itemCardapio;
         this.pedidoEstado = PedidoEstadoAceito.getInstancia();
     }
 
-    public Hamburguer getHamburguer() {
-        return hamburguer;
+    public ItemCardapio getItemCardapio() {
+        return itemCardapio;
     }
 
 
@@ -87,11 +88,15 @@ public class Pedido extends Observable {
         return Cozinha.getInstance().processarTarefa(this);
     }
 
-    public static Pedido fazer(ModoPreparo preparo, EstrategiaPagamento pagamento, boolean vegano) {
+    public static Pedido fazerPedido(ModoPreparo preparo, EstrategiaPagamento pagamento, boolean vegano) {
         if (vegano) {
             return PedidoFacade.fazerPedidoVegano(preparo, pagamento);
         }
         return PedidoFacade.fazerPedidoTradicional(preparo, pagamento);
+    }
+
+    public static Pedido fazerCombo(ModoPreparo preparo, EstrategiaPagamento pagamento, boolean vegano) {
+        return PedidoFacade.fazerCombo(preparo, pagamento, vegano);
     }
 
     @Override

@@ -2,15 +2,16 @@ package org.example.pedido;
 
 import org.example.pagamento.EstrategiaPagamento;
 import org.example.produtos.Hamburguer;
+import org.example.produtos.ItemCardapio;
 
 public class PedidoBuilder {
 
-    private Hamburguer hamburguer;
+    private ItemCardapio itemCardapio;
     private EstrategiaPagamento estrategiaPagamento;
     private String tarefaCozinha;
 
-    public PedidoBuilder setHamburguer(Hamburguer hamburguer) {
-        this.hamburguer = hamburguer;
+    public PedidoBuilder setItemCardapio(ItemCardapio itemCardapio) {
+        this.itemCardapio = itemCardapio;
         return this;
     }
 
@@ -25,15 +26,13 @@ public class PedidoBuilder {
     }
 
     public Pedido build() {
-        if (hamburguer == null) {
-            throw new NullPointerException("Hamburguer inválido");
+        if (itemCardapio == null) {
+            throw new NullPointerException("Item do cardápio inválido");
         }
-
         if (estrategiaPagamento == null) {
             throw new NullPointerException("Tipo de pagamento inválido");
         }
-
-        Pedido pedido = new Pedido(hamburguer);
+        Pedido pedido = new Pedido(itemCardapio);
         pedido.setEstrategiaPagamento(estrategiaPagamento);
         pedido.setTarefaCozinha(tarefaCozinha);
         return pedido;
