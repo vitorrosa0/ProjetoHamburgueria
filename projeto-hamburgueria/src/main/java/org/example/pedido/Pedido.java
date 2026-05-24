@@ -2,6 +2,7 @@ package org.example.pedido;
 
 import org.example.equipe.Cozinha;
 import org.example.pagamento.EstrategiaPagamento;
+import org.example.preparo.ModoPreparo;
 import org.example.produtos.Hamburguer;
 
 import java.util.Observable;
@@ -84,6 +85,13 @@ public class Pedido extends Observable {
 
     public String processarNaCozinha() {
         return Cozinha.getInstance().processarTarefa(this);
+    }
+
+    public static Pedido fazer(ModoPreparo preparo, EstrategiaPagamento pagamento, boolean vegano) {
+        if (vegano) {
+            return PedidoFacade.fazerPedidoVegano(preparo, pagamento);
+        }
+        return PedidoFacade.fazerPedidoTradicional(preparo, pagamento);
     }
 
     @Override

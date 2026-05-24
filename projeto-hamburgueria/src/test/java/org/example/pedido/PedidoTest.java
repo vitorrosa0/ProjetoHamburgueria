@@ -8,6 +8,7 @@ import org.example.pagamento.PagamentoCartao;
 import org.example.pagamento.PagamentoDinheiro;
 import org.example.pagamento.PagamentoPix;
 import org.example.preparo.PreparoGrelhado;
+import org.example.preparo.PreparoNaChapa;
 import org.example.produtos.Hamburguer;
 import org.junit.jupiter.api.Test;
 
@@ -417,5 +418,21 @@ class PedidoTest {
         pedido.setTarefaCozinha("Montando o sanduiche");
 
         assertEquals("ChefMontagem", pedido.processarNaCozinha());
+    }
+
+    @Test
+    void deveFazerPedidoTradicionalGrelhadoViaPix() {
+        Pedido pedido = Pedido.fazer(new PreparoGrelhado(), new PagamentoPix(), false);
+        assertEquals("[Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa",
+                pedido.getHamburguer().montaHamburguer());
+        assertEquals("[Pago via Pix]", pedido.getEstrategiaPagamento().descricao());
+    }
+
+    @Test
+    void deveFazerPedidoVeganoNaChapaViaCartao() {
+        Pedido pedido = Pedido.fazer(new PreparoNaChapa(), new PagamentoCartao(), true);
+        assertEquals("[Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa",
+                pedido.getHamburguer().montaHamburguer());
+        assertEquals("[Pago via Cartão]", pedido.getEstrategiaPagamento().descricao());
     }
 }
