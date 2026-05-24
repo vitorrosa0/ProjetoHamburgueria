@@ -442,4 +442,41 @@ class PedidoTest {
                         "Bebida: Refrigerante - R$8.0\n",
                 pedido.getItemCardapio().getConteudo());
     }
+
+    @Test
+    void deveArmazenarEstados() {
+        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        pedido.preparar();
+        pedido.pronto();
+        assertEquals(3, pedido.getEstados().size());
+    }
+
+    @Test
+    void deveRetornarEstadoInicial() {
+        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        pedido.preparar();
+        pedido.pronto();
+        pedido.restauraEstado(0);
+        assertEquals(PedidoEstadoAceito.getInstancia(), pedido.getEstado());
+    }
+
+    @Test
+    void deveRetornarEstadoAnterior() {
+        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        pedido.preparar();
+        pedido.pronto();
+        pedido.restauraEstado(1);
+        assertEquals(PedidoEstadoEmPreparacao.getInstancia(), pedido.getEstado());
+    }
+
+    @Test
+    void deveRetornarExcecaoIndiceInvalido() {
+        try {
+            Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+            pedido.restauraEstado(5);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("Índice inválido", e.getMessage());
+        }
+    }
 }

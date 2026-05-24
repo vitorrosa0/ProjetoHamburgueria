@@ -6,6 +6,8 @@ import org.example.preparo.ModoPreparo;
 import org.example.produtos.Hamburguer;
 import org.example.produtos.ItemCardapio;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 public class Pedido extends Observable {
@@ -14,10 +16,12 @@ public class Pedido extends Observable {
     private PedidoEstado pedidoEstado;
     private EstrategiaPagamento estrategiaPagamento;
     private String tarefaCozinha;
+    private List<PedidoEstado> memento = new ArrayList<PedidoEstado>();
 
     public Pedido(ItemCardapio itemCardapio) {
         this.itemCardapio = itemCardapio;
         this.pedidoEstado = PedidoEstadoAceito.getInstancia();
+        this.memento.add(this.pedidoEstado);
     }
 
     public ItemCardapio getItemCardapio() {
@@ -31,6 +35,7 @@ public class Pedido extends Observable {
 
     public void setPedidoEstado(PedidoEstado pedidoEstado) {
         this.pedidoEstado = pedidoEstado;
+        this.memento.add(this.pedidoEstado);
         this.atualizarPedido();
     }
 
@@ -97,6 +102,17 @@ public class Pedido extends Observable {
 
     public static Pedido fazerCombo(ModoPreparo preparo, EstrategiaPagamento pagamento, boolean vegano) {
         return PedidoFacade.fazerCombo(preparo, pagamento, vegano);
+    }
+
+    public void restauraEstado(int indice) {
+        if (indice < 0 || indice > this.memento.size() - 1) {
+            throw new IllegalArgumentException("Índice inválido");
+        }
+        this.pedidoEstado = this.memento.get(indice);
+    }
+
+    public List<PedidoEstado> getEstados() {
+        return this.memento;
     }
 
     @Override
