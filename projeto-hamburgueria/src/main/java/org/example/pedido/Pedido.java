@@ -7,10 +7,11 @@ import org.example.produtos.Hamburguer;
 import org.example.produtos.ItemCardapio;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
-public class Pedido extends Observable implements Cloneable {
+public class Pedido extends Observable implements Cloneable, Iterable<PedidoEstado> {
 
     private ItemCardapio itemCardapio;
     private PedidoEstado pedidoEstado;
@@ -124,5 +125,10 @@ public class Pedido extends Observable implements Cloneable {
     @Override
     public String toString() {
         return pedidoEstado.getPedidoEstado();
+    }
+
+    @Override
+    public Iterator<PedidoEstado> iterator() {
+        return memento.iterator();
     }
 }
