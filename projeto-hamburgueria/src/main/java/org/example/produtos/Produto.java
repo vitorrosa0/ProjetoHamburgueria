@@ -1,5 +1,7 @@
 package org.example.produtos;
 
+import org.example.visitors.ItemCardapioVisitor;
+
 public class Produto extends ItemCardapio {
 
     private Hamburguer hamburguer;
@@ -32,5 +34,10 @@ public class Produto extends ItemCardapio {
                     " - R$" + preco + "\n";
         }
         return base;
+    }
+
+    @Override
+    public double aceitar(ItemCardapioVisitor visitor) {
+        return visitor.visitarProduto(this);
     }
 }
