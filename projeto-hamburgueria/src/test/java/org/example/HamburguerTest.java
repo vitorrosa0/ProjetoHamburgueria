@@ -16,7 +16,6 @@ class HamburguerTest {
     void deveRetornarHamburguerVeganoNaChapa() {
         HamburgueriaFactory fabrica = FabricaVegana.getInstancia();
         Hamburguer hamburguer = fabrica.criarBase(new PreparoNaChapa());
-
         assertEquals("[Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa",
                 hamburguer.montaHamburguer());
     }
@@ -25,7 +24,6 @@ class HamburguerTest {
     void deveRetornarHamburguerVeganoGrelhado() {
         HamburgueriaFactory fabrica = FabricaVegana.getInstancia();
         Hamburguer hamburguer = fabrica.criarBase(new PreparoGrelhado());
-
         assertEquals("[Vegano] Pão: Pão Integral, Carne: Grão de Bico - grelhado na brasa",
                 hamburguer.montaHamburguer());
     }
@@ -34,7 +32,6 @@ class HamburguerTest {
     void deveRetornarHamburguerTradicionalGrelhado() {
         HamburgueriaFactory fabrica = FabricaTradicional.getInstancia();
         Hamburguer hamburguer = fabrica.criarBase(new PreparoGrelhado());
-
         assertEquals("[Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa",
                 hamburguer.montaHamburguer());
     }
@@ -43,7 +40,6 @@ class HamburguerTest {
     void deveRetornarHamburguerTradicionalNaChapa() {
         HamburgueriaFactory fabrica = FabricaTradicional.getInstancia();
         Hamburguer hamburguer = fabrica.criarBase(new PreparoNaChapa());
-
         assertEquals("[Tradicional] Pão: Pão Brioche, Carne: Carne bovina - na chapa",
                 hamburguer.montaHamburguer());
     }
@@ -51,10 +47,8 @@ class HamburguerTest {
     @Test
     void deveRetornarHamburguerTradicionalGrelhadoComQueijo() {
         HamburgueriaFactory fabrica = FabricaTradicional.getInstancia();
-
         Hamburguer pedido = fabrica.criarBase(new PreparoGrelhado());
         pedido = fabrica.adicionarQueijo(pedido);
-
         assertEquals("[Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa, Queijo Tradicional",
                 pedido.montaHamburguer());
     }
@@ -62,10 +56,8 @@ class HamburguerTest {
     @Test
     void deveRetornarHamburguerTradicionalNaChapaComQueijo() {
         HamburgueriaFactory fabrica = FabricaTradicional.getInstancia();
-
         Hamburguer pedido = fabrica.criarBase(new PreparoNaChapa());
         pedido = fabrica.adicionarQueijo(pedido);
-
         assertEquals("[Tradicional] Pão: Pão Brioche, Carne: Carne bovina - na chapa, Queijo Tradicional",
                 pedido.montaHamburguer());
     }
@@ -73,10 +65,8 @@ class HamburguerTest {
     @Test
     void deveRetornarHamburguerVeganoGrelhadoComQueijo() {
         HamburgueriaFactory fabrica = FabricaVegana.getInstancia();
-
         Hamburguer pedido = fabrica.criarBase(new PreparoGrelhado());
         pedido = fabrica.adicionarQueijo(pedido);
-
         assertEquals("[Vegano] Pão: Pão Integral, Carne: Grão de Bico - grelhado na brasa, Queijo Vegano",
                 pedido.montaHamburguer());
     }
@@ -84,12 +74,9 @@ class HamburguerTest {
     @Test
     void deveRetornarHamburguerVeganoNaChapaComQueijo() {
         HamburgueriaFactory fabrica = FabricaVegana.getInstancia();
-
         Hamburguer pedido = fabrica.criarBase(new PreparoNaChapa());
         pedido = fabrica.adicionarQueijo(pedido);
-
         assertEquals("[Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa, Queijo Vegano",
                 pedido.montaHamburguer());
     }
-
 }

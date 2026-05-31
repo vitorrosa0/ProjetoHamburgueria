@@ -1,14 +1,14 @@
 package org.example.pedido;
 
+import org.example.equipe.TarefaCozinha;
 import org.example.pagamento.EstrategiaPagamento;
-import org.example.produtos.Hamburguer;
 import org.example.produtos.ItemCardapio;
 
 public class PedidoBuilder {
 
     private ItemCardapio itemCardapio;
     private EstrategiaPagamento estrategiaPagamento;
-    private String tarefaCozinha;
+    private TarefaCozinha tarefaCozinha;
 
     public PedidoBuilder setItemCardapio(ItemCardapio itemCardapio) {
         this.itemCardapio = itemCardapio;
@@ -20,7 +20,7 @@ public class PedidoBuilder {
         return this;
     }
 
-    public PedidoBuilder setTarefaCozinha(String tarefaCozinha) {
+    public PedidoBuilder setTarefaCozinha(TarefaCozinha tarefaCozinha) {
         this.tarefaCozinha = tarefaCozinha;
         return this;
     }

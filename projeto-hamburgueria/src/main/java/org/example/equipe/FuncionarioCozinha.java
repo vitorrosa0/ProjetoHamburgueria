@@ -4,21 +4,21 @@ import org.example.pedido.Pedido;
 
 public abstract class FuncionarioCozinha {
 
-    private String responsabilidade;
+    private TarefaCozinha responsabilidade;
     private FuncionarioCozinha proximoFuncionarioCozinha;
 
-    public void setProximoFuncionarioCozinha(FuncionarioCozinha proximoFuncionarioCozinha) {
-        this.proximoFuncionarioCozinha = proximoFuncionarioCozinha;
+    public void setProximoFuncionarioCozinha(FuncionarioCozinha proximo) {
+        this.proximoFuncionarioCozinha = proximo;
     }
 
-    public void setResponsabilidade(String responsabilidade) {
+    public void setResponsabilidade(TarefaCozinha responsabilidade) {
         this.responsabilidade = responsabilidade;
     }
 
     public abstract String getDescricaoCargo();
 
     public String preparar(Pedido pedido) {
-        if (responsabilidade.equals(pedido.getTarefaCozinha())) {
+        if (responsabilidade == pedido.getTarefaCozinha()) {
             return getDescricaoCargo();
         }
 

@@ -11,12 +11,13 @@ import java.util.List;
 public class Estoque {
 
     private List<Produto> produtos = new ArrayList<>();
+    private IngredienteFactory ingredienteFactory = new IngredienteFactory();
 
     public void adicionar(ModoPreparo preparo, boolean vegano, String nomeIngrediente, String tipo) {
         Hamburguer hamburguer = vegano
                 ? FabricaVegana.getInstancia().criarBase(preparo)
                 : FabricaTradicional.getInstancia().criarBase(preparo);
-        Ingrediente ingrediente = IngredienteFactory.getIngrediente(nomeIngrediente, tipo);
+        Ingrediente ingrediente = ingredienteFactory.getIngrediente(nomeIngrediente, tipo);
         Produto produto = new Produto(hamburguer, vegano ? 22.0 : 25.0, ingrediente);
         produtos.add(produto);
     }
@@ -27,5 +28,9 @@ public class Estoque {
             saida.add(produto.getConteudo());
         }
         return saida;
+    }
+
+    public int getTotalIngredientes() {
+        return ingredienteFactory.getTotalIngredientes();
     }
 }

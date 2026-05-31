@@ -10,7 +10,7 @@ class HistoricoPedidoTest {
 
     @Test
     void deveContarEstados() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
         pedido.preparar();
         pedido.pronto();
 
@@ -19,7 +19,7 @@ class HistoricoPedidoTest {
 
     @Test
     void deveContarEstadosCancelados() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
         pedido.preparar();
         pedido.cancelar();
 

@@ -3,7 +3,7 @@ package org.example.equipe;
 public class ChefFritar extends FuncionarioCozinha {
 
     public ChefFritar(FuncionarioCozinha proximo) {
-        setResponsabilidade("Fritando a carne");
+        setResponsabilidade(TarefaCozinhaFritar.getInstancia());
         setProximoFuncionarioCozinha(proximo);
     }
 

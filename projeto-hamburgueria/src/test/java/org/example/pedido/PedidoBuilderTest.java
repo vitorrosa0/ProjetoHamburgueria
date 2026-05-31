@@ -1,7 +1,7 @@
 package org.example.pedido;
 
+import org.example.equipe.TarefaCozinhaFritar;
 import org.example.fabrica.FabricaTradicional;
-import org.example.fabrica.HamburgueriaFactory;
 import org.example.pagamento.PagamentoCartao;
 import org.example.pagamento.PagamentoDinheiro;
 import org.example.preparo.PreparoGrelhado;
@@ -19,7 +19,7 @@ class PedidoBuilderTest {
             PedidoBuilder pedidoBuilder = new PedidoBuilder();
             Pedido pedido = pedidoBuilder
                     .setEstrategiaPagamento(new PagamentoCartao())
-                    .setTarefaCozinha("Fritando a carne")
+                    .setTarefaCozinha(TarefaCozinhaFritar.getInstancia())
                     .build();
             fail();
         } catch (NullPointerException e) {
@@ -36,7 +36,7 @@ class PedidoBuilderTest {
             PedidoBuilder pedidoBuilder = new PedidoBuilder();
             Pedido pedido = pedidoBuilder
                     .setItemCardapio(produto)
-                    .setTarefaCozinha("Fritando a carne")
+                    .setTarefaCozinha(TarefaCozinhaFritar.getInstancia())
                     .build();
             fail();
         } catch (NullPointerException e) {
@@ -52,7 +52,7 @@ class PedidoBuilderTest {
         Pedido pedido = new PedidoBuilder()
                 .setItemCardapio(produto)
                 .setEstrategiaPagamento(new PagamentoDinheiro())
-                .setTarefaCozinha("Fritando a carne")
+                .setTarefaCozinha(TarefaCozinhaFritar.getInstancia())
                 .build();
 
         assertNotNull(pedido);

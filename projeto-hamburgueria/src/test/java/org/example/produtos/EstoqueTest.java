@@ -1,6 +1,5 @@
 package org.example.produtos;
 
-import org.example.fabrica.IngredienteFactory;
 import org.example.preparo.PreparoGrelhado;
 import org.example.preparo.PreparoNaChapa;
 import org.junit.jupiter.api.Test;
@@ -34,6 +33,6 @@ class EstoqueTest {
         estoque.adicionar(new PreparoNaChapa(), false, "Queijo", "Laticinios");
         estoque.adicionar(new PreparoGrelhado(), true, "Tofu", "Proteina Vegetal");
 
-        assertEquals(2, IngredienteFactory.getTotalIngredientes());
+        assertEquals(2, estoque.getTotalIngredientes());
     }
 }

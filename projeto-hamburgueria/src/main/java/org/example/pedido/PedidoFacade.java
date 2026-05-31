@@ -1,5 +1,6 @@
 package org.example.pedido;
 
+import org.example.equipe.TarefaCozinhaFritar;
 import org.example.fabrica.FabricaTradicional;
 import org.example.fabrica.FabricaVegana;
 import org.example.pagamento.EstrategiaPagamento;
@@ -11,23 +12,30 @@ import org.example.produtos.Produto;
 
 public class PedidoFacade {
 
+    public static Pedido fazerPedido(ModoPreparo preparo, EstrategiaPagamento pagamento, boolean vegano) {
+        if (vegano) {
+            return fazerPedidoVegano(preparo, pagamento);
+        }
+        return fazerPedidoTradicional(preparo, pagamento);
+    }
+
     public static Pedido fazerPedidoTradicional(ModoPreparo preparo, EstrategiaPagamento pagamento) {
         Hamburguer hamburguer = FabricaTradicional.getInstancia().criarBase(preparo);
-        Produto produto = new Produto(hamburguer, 25.0);
+        Produto produto = new Produto(hamburguer, Preco.HAMBURGUER_TRADICIONAL);
         return new PedidoBuilder()
                 .setItemCardapio(produto)
                 .setEstrategiaPagamento(pagamento)
-                .setTarefaCozinha("Fritando a carne")
+                .setTarefaCozinha(TarefaCozinhaFritar.getInstancia())
                 .build();
     }
 
     public static Pedido fazerPedidoVegano(ModoPreparo preparo, EstrategiaPagamento pagamento) {
         Hamburguer hamburguer = FabricaVegana.getInstancia().criarBase(preparo);
-        Produto produto = new Produto(hamburguer, 22.0);
+        Produto produto = new Produto(hamburguer, Preco.HAMBURGUER_VEGANO);
         return new PedidoBuilder()
                 .setItemCardapio(produto)
                 .setEstrategiaPagamento(pagamento)
-                .setTarefaCozinha("Fritando a carne")
+                .setTarefaCozinha(TarefaCozinhaFritar.getInstancia())
                 .build();
     }
 
@@ -37,13 +45,13 @@ public class PedidoFacade {
                 : FabricaTradicional.getInstancia().criarBase(preparo);
 
         Combo combo = new Combo("Combo");
-        combo.addItem(new Produto(hamburguer, vegano ? 22.0 : 25.0));
-        combo.addItem(new Bebida("Refrigerante", 8.0));
+        combo.addItem(new Produto(hamburguer, vegano ? Preco.HAMBURGUER_VEGANO : Preco.HAMBURGUER_TRADICIONAL));
+        combo.addItem(new Bebida("Refrigerante", Preco.BEBIDA));
 
         return new PedidoBuilder()
                 .setItemCardapio(combo)
                 .setEstrategiaPagamento(pagamento)
-                .setTarefaCozinha("Fritando a carne")
+                .setTarefaCozinha(TarefaCozinhaFritar.getInstancia())
                 .build();
     }
 }

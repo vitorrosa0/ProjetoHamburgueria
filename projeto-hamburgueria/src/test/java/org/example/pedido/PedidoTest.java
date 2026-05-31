@@ -1,5 +1,7 @@
 package org.example.pedido;
 
+import org.example.equipe.TarefaCozinhaFritar;
+import org.example.equipe.TarefaCozinhaMontar;
 import org.example.pagamento.PagamentoCartao;
 import org.example.pagamento.PagamentoDinheiro;
 import org.example.pagamento.PagamentoPix;
@@ -12,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PedidoTest {
 
     private Pedido criarPedidoTradicional() {
-        return Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        return PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
     }
 
     @Test
@@ -368,7 +370,6 @@ class PedidoTest {
         assertFalse(pedido.pronto());
     }
 
-
     @Test
     void deveRetornarMetodoPagamentoPix() {
         Pedido pedido = criarPedidoTradicional();
@@ -393,20 +394,20 @@ class PedidoTest {
     @Test
     void deveChefChapaAssumirFritura() {
         Pedido pedido = criarPedidoTradicional();
-        pedido.setTarefaCozinha("Fritando a carne");
+        // tarefaCozinha already set to TarefaCozinhaFritar by PedidoFacade
         assertEquals("ChefChapa", pedido.processarNaCozinha());
     }
 
     @Test
     void deveChefMontagemAssumirAMontagem() {
         Pedido pedido = criarPedidoTradicional();
-        pedido.setTarefaCozinha("Montando o sanduiche");
+        pedido.setTarefaCozinha(TarefaCozinhaMontar.getInstancia());
         assertEquals("ChefMontagem", pedido.processarNaCozinha());
     }
 
     @Test
     void deveFazerPedidoTradicionalGrelhadoViaPix() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
         assertEquals("Produto: [Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa - R$25.0\n",
                 pedido.getItemCardapio().getConteudo());
         assertEquals("[Pago via Pix]", pedido.getEstrategiaPagamento().descricao());
@@ -414,7 +415,7 @@ class PedidoTest {
 
     @Test
     void deveFazerPedidoVeganoNaChapaViaCartao() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoNaChapa(), new PagamentoCartao(), true);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoNaChapa(), new PagamentoCartao(), true);
         assertEquals("Produto: [Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa - R$22.0\n",
                 pedido.getItemCardapio().getConteudo());
         assertEquals("[Pago via Cartão]", pedido.getEstrategiaPagamento().descricao());
@@ -422,7 +423,7 @@ class PedidoTest {
 
     @Test
     void deveFazerComboTradicionalGrelhado() {
-        Pedido pedido = Pedido.fazerCombo(new PreparoGrelhado(), new PagamentoDinheiro(), false);
+        Pedido pedido = PedidoFacade.fazerCombo(new PreparoGrelhado(), new PagamentoDinheiro(), false);
         assertEquals("Combo: Combo\n" +
                         "Produto: [Tradicional] Pão: Pão Brioche, Carne: Carne bovina - grelhado na brasa - R$25.0\n" +
                         "Bebida: Refrigerante - R$8.0\n",
@@ -431,7 +432,7 @@ class PedidoTest {
 
     @Test
     void deveFazerComboVeganoNaChapa() {
-        Pedido pedido = Pedido.fazerCombo(new PreparoNaChapa(), new PagamentoPix(), true);
+        Pedido pedido = PedidoFacade.fazerCombo(new PreparoNaChapa(), new PagamentoPix(), true);
         assertEquals("Combo: Combo\n" +
                         "Produto: [Vegano] Pão: Pão Integral, Carne: Grão de Bico - na chapa - R$22.0\n" +
                         "Bebida: Refrigerante - R$8.0\n",
@@ -440,7 +441,7 @@ class PedidoTest {
 
     @Test
     void deveArmazenarEstados() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
         pedido.preparar();
         pedido.pronto();
         assertEquals(3, pedido.getEstados().size());
@@ -448,7 +449,7 @@ class PedidoTest {
 
     @Test
     void deveRetornarEstadoInicial() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
         pedido.preparar();
         pedido.pronto();
         pedido.restauraEstado(0);
@@ -457,7 +458,7 @@ class PedidoTest {
 
     @Test
     void deveRetornarEstadoAnterior() {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
         pedido.preparar();
         pedido.pronto();
         pedido.restauraEstado(1);
@@ -467,7 +468,7 @@ class PedidoTest {
     @Test
     void deveRetornarExcecaoIndiceInvalido() {
         try {
-            Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+            Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
             pedido.restauraEstado(5);
             fail();
         } catch (IllegalArgumentException e) {
@@ -477,7 +478,7 @@ class PedidoTest {
 
     @Test
     void testClone() throws CloneNotSupportedException {
-        Pedido pedido = Pedido.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
+        Pedido pedido = PedidoFacade.fazerPedido(new PreparoGrelhado(), new PagamentoPix(), false);
 
         Pedido pedidoClone = pedido.clone();
         pedidoClone.setEstrategiaPagamento(new PagamentoCartao());
@@ -486,7 +487,6 @@ class PedidoTest {
         assertEquals("[Pago via Cartão]", pedidoClone.getEstrategiaPagamento().descricao());
 
         assertNotSame(pedido.getItemCardapio(), pedidoClone.getItemCardapio());
-
         assertEquals(pedido.getItemCardapio().getConteudo(), pedidoClone.getItemCardapio().getConteudo());
     }
 }
