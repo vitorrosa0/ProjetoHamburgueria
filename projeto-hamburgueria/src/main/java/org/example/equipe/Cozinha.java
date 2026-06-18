@@ -2,7 +2,7 @@ package org.example.equipe;
 
 import org.example.pedido.Pedido;
 
-public class Cozinha {
+public class Cozinha implements ICozinha {
 
     private Cozinha() {}
 
@@ -13,8 +13,8 @@ public class Cozinha {
     public static Cozinha getInstance() { return Holder.INSTANCIA; }
 
     public String processarTarefa(Pedido pedido) {
-        ChefMontagem montagem = new ChefMontagem(null);
-        ChefFritar fritar = new ChefFritar(montagem);
+        FuncionarioCozinha montagem = new ChefMontagem(null);
+        FuncionarioCozinha fritar = new ChefFritar(montagem);
         return fritar.preparar(pedido);
     }
 }

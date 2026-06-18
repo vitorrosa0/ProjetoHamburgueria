@@ -1,6 +1,5 @@
 package org.example.pedido;
 
-import org.example.equipe.Cozinha;
 import org.example.equipe.TarefaCozinha;
 import org.example.pagamento.EstrategiaPagamento;
 import org.example.produtos.ItemCardapio;
@@ -45,12 +44,10 @@ public class Pedido extends Observable implements Cloneable {
 
     public HistoricoPedido getHistorico() { return historico; }
 
-    // Memento: delegate to HistoricoPedido
     public void restauraEstado(int indice) {
         this.pedidoEstado = historico.restaurar(indice);
     }
 
-    // Kept for test compatibility (delegates to historico)
     public java.util.List<PedidoEstado> getEstados() {
         java.util.List<PedidoEstado> lista = new java.util.ArrayList<>();
         for (PedidoEstado e : historico) {
@@ -71,10 +68,6 @@ public class Pedido extends Observable implements Cloneable {
         pedidoEstado.atualizar(this);
         setChanged();
         notifyObservers();
-    }
-
-    public String processarNaCozinha() {
-        return Cozinha.getInstance().processarTarefa(this);
     }
 
     public Pedido clone() throws CloneNotSupportedException {

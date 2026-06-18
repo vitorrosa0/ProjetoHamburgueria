@@ -1,5 +1,6 @@
 package org.example.pedido;
 
+import org.example.equipe.CozinhaProxy;
 import org.example.equipe.TarefaCozinhaFritar;
 import org.example.equipe.TarefaCozinhaMontar;
 import org.example.pagamento.PagamentoCartao;
@@ -394,15 +395,16 @@ class PedidoTest {
     @Test
     void deveChefChapaAssumirFritura() {
         Pedido pedido = criarPedidoTradicional();
-        // tarefaCozinha already set to TarefaCozinhaFritar by PedidoFacade
-        assertEquals("ChefChapa", pedido.processarNaCozinha());
+        pedido.setPedidoEstado(PedidoEstadoEmPreparacao.getInstancia());
+        assertEquals("ChefChapa", new CozinhaProxy().processarTarefa(pedido));
     }
 
     @Test
     void deveChefMontagemAssumirAMontagem() {
         Pedido pedido = criarPedidoTradicional();
         pedido.setTarefaCozinha(TarefaCozinhaMontar.getInstancia());
-        assertEquals("ChefMontagem", pedido.processarNaCozinha());
+        pedido.setPedidoEstado(PedidoEstadoEmPreparacao.getInstancia());
+        assertEquals("ChefMontagem", new CozinhaProxy().processarTarefa(pedido));
     }
 
     @Test

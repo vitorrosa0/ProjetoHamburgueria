@@ -2,26 +2,10 @@ package org.example.fabrica;
 
 import org.example.produtos.Hamburguer;
 import org.example.produtos.HamburguerDecorator;
-import org.example.produtos.QueijoTradicional;
-import org.example.produtos.QueijoVegano;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 public class HamburgueriaDecoratorFactory {
 
-    // após alguns estudos, aprendi que o uso do "Class.forName()" é uma chamada que acontece em runtime
-    // com isso, o compilador não sabe se "org.example.QueijoTradicional" existe
-    // com o Map, eu registro "QueijoTradicional::new" que é verificado em compile time
-    // se renomear a classe, o compilador avisa imediatamente, em vez de só quebrar quando alguém pedir aquele ingrediente
-    // erro: reflection
-    private final Map<String, Function<Hamburguer, HamburguerDecorator>> decorators = new HashMap<>();
-
-    private HamburgueriaDecoratorFactory() {
-        decorators.put("QueijoTradicional", QueijoTradicional::new);
-        decorators.put("QueijoVegano", QueijoVegano::new);
-    }
+    private HamburgueriaDecoratorFactory() {}
 
     private static class Holder {
         private static final HamburgueriaDecoratorFactory INSTANCIA = new HamburgueriaDecoratorFactory();
@@ -32,10 +16,21 @@ public class HamburgueriaDecoratorFactory {
     }
 
     public Hamburguer obterIngrediente(String ingrediente, Hamburguer hamburguer) {
-        Function<Hamburguer, HamburguerDecorator> construtor = decorators.get(ingrediente);
-        if (construtor == null) {
-            throw new IllegalArgumentException("Decorator inexistente: " + ingrediente);
+        Class classe = null;
+        Object objeto = null;
+
+        try {
+            classe = Class.forName("org.example." + ingrediente);
+            objeto = classe.getDeclaredConstructor(Hamburguer.class).newInstance(hamburguer);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Decorator inexistente");
         }
-        return construtor.apply(hamburguer);
+
+        if (!(objeto instanceof HamburguerDecorator)) {
+            throw new IllegalArgumentException("Decorator inválido");
+        }
+
+        return (Hamburguer) objeto;
     }
+
 }
