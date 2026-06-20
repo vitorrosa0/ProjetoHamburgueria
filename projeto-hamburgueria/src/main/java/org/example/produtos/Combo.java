@@ -34,4 +34,9 @@ public class Combo extends ItemCardapio {
     public double aceitar(ItemCardapioVisitor visitor) {
         return visitor.visitarCombo(this);
     }
+
+    public void removerItem(ItemCardapio item) {
+        itens.remove(item);
+    }
+
 }
