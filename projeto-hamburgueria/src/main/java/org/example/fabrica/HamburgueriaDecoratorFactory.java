@@ -20,7 +20,7 @@ public class HamburgueriaDecoratorFactory {
         Object objeto = null;
 
         try {
-            classe = Class.forName("org.example." + ingrediente);
+            classe = Class.forName("org.example.produtos." + ingrediente);
             objeto = classe.getDeclaredConstructor(Hamburguer.class).newInstance(hamburguer);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Decorator inexistente");
